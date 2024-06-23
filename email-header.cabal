@@ -33,7 +33,7 @@ library
     base64-bytestring >= 0.1.2 && < 2,
     bytestring        >= 0.10  && < 0.11,
     case-insensitive,
-    containers        >= 0.4   && < 0.6,
+    containers        >= 0.4   && < 0.7,
     exceptions,
     text              >= 0.11  && < 2,
     text-icu          >= 0.6.3 && < 1,
