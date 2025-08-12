@@ -1,4 +1,7 @@
-resolver: lts-12.1
+resolver: lts-22.44
+
+packages:
+  - '.'
 
 ghc-options:
   email-header: -Werror

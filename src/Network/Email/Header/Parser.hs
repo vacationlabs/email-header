@@ -44,7 +44,7 @@ import qualified Data.ByteString.Base64           as Base64
 import qualified Data.ByteString.Char8            as B8
 import           Data.ByteString.Internal         (w2c)
 import qualified Data.ByteString.Lazy             as L (toStrict)
-import           Data.ByteString.Lazy.Builder
+import           Data.ByteString.Builder (Builder, toLazyByteString, word8, char8, byteString)
 import           Data.CaseInsensitive             (CI)
 import qualified Data.CaseInsensitive             as CI
 import           Data.List
@@ -54,7 +54,7 @@ import qualified Data.Text                        as T
 import           Data.Text.Encoding
 import qualified Data.Text.Lazy                   as L (Text, fromChunks)
 import           Data.Time
-import           Data.Time.Calendar.WeekDate
+import           Data.Time.Calendar.WeekDate (toWeekDate)
 import           Data.Word
 
 import           Network.Email.Charset
@@ -254,7 +254,7 @@ commaSep p = optionalSepBy1 p (symbol ',')
 -- to UTC time.
 dateTime :: Parser ZonedTime
 dateTime = do
-    wday  <- optional dayOfWeek
+    wday  <- optional dayOfWeekName
     zoned <- zonedTime
     let (_, _, expected) =
             toWeekDate . localDay . zonedTimeToLocalTime $ zoned
@@ -263,7 +263,7 @@ dateTime = do
           -> fail "day of week does not match date"
         _ -> return zoned
   where
-    dayOfWeek = dayName <* symbol ','
+    dayOfWeekName = dayName <* symbol ','
     localTime = LocalTime <$> date <*> timeOfDay
     zonedTime = ZonedTime <$> localTime <*> timeZone
 
